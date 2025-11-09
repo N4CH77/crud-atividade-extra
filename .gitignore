@@ -1,0 +1,5 @@
+# Ignorar todos os arquivos .txt (nosso "banco de dados")
+*.txt
+
+# Ignorar todos os executáveis
+*.exe
