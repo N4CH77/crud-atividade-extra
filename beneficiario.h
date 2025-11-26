@@ -1,8 +1,8 @@
-#ifndef DOCUMENTO_H
-#define DOCUMENTO_H
+#ifndef BENEFICIARIO_H
+#define BENEFICIARIO_H
 
 // -- Estrutura para leitura ou criação do documento (CPF, nome, idade e sexo) da empresa --
-struct Documento
+struct Beneficiario
 {
     char cpf[20]; // "char" guarda um texto. No exemplo, 15 caracteres
     char nome[100];
@@ -11,9 +11,9 @@ struct Documento
 };
 
 // -- Declaração das funções p/ main() [3 funções] --
-void criarDocumento();
-void lerDocumentos(); 
-void atualizarDocumento();
+void criarBeneficiario();
+void lerBeneficiarios(); 
+void atualizarBeneficiario();
 void limparTela();
 
 #endif
