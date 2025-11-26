@@ -1,8 +1,17 @@
+/*
+ * Projeto: Sistema de Gestão de Beneficiários (ODS 2 - Fome Zero)
+ * Disciplina: Bases de Programação - Eng. Computação
+ * * Desenvolvedor Responsável:
+ * 1. David Augusto Ribeiro Lima (N4CH77)
+ * * Nota: Projeto desenvolvido individualmente, abrangendo todas as etapas
+ * de arquitetura, implementação, testes e documentação.
+ */
+
 // -- Bibliotecas utilizadas --
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "documento.h"
+#include "beneficiario.h"
 
 // -- Opções (CRIAR, LER, ATUALIZAR, DELETAR E SAIR) --
 int main() {
@@ -23,13 +32,13 @@ int main() {
     switch (opcoes)
     {
         case 1:
-            criarDocumento();
+            criarBeneficiario();
             break;
         case 2:
-            lerDocumentos();
+            lerBeneficiarios();
             break;
         case 3:
-            atualizarDocumento();
+            atualizarBeneficiario();
             break;
         case 4:
             printf("\n>>> Você escolheu DELETAR\n");

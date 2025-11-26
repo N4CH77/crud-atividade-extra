@@ -1,6 +1,6 @@
 CC = gcc
-TARGET = crud
-SRCS = main.c documento.c
+TARGET = projeto_ods
+SRCS = main.c beneficiario.c
 OBJS = $(SRCS:.c=.o)
 
 # Regra principal: como criar o programa
