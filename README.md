@@ -1,64 +1,61 @@
-# Projeto CRUD em C
+# Sistema de Gestão de Beneficiários (ODS 2 - Fome Zero)
 ![Linguagem C](https://img.shields.io/badge/Linguagem-C-00599C?style=for-the-badge&logo=c&logoColor=white)
 
-> Versão: 2.0.0 (Código Modularizado | Funções C-R-U)
+> Versão: 2.1.0 (Código Modularizado | Funções C-R-U | Fome Zero)
 
-Este é um projeto de CRUD (Create, Read, Update, Delete) feito em linguagem C. Ele foi desenvolvido como um exercício para a matéria BASES DE PROGRAMAÇÃO do curso de Engenharia de Computação da UniJorge.
+Este projeto é um sistema de gestão (CRUD) desenvolvido em linguagem C como parte da disciplina **BASES DE PROGRAMAÇÃO** do curso de Engenharia de Computação da UniJorge.
 
-O programa simula o cadastro de documentos (CPF, Nome, Idade, Sexo) em uma empresa e salva os dados em um arquivo `documento.txt`.
+O software foi projetado para atender ao **ODS 2 (Fome Zero e Agricultura Sustentável)** da ONU, simulando o cadastro e controle de beneficiários para uma ação social de distribuição de alimentos. Os dados são persistidos em um arquivo `beneficiario.txt`.
 
 ---
 
 ## Arquitetura
 Este projeto evoluiu de um script de arquivo único para uma arquitetura modular profissional, seguindo o princípio da "Separação de Preocupações".
 
-* documento.h: Define a struct Documento e os protótipos de todas as funções.
-
-* documento.c: Contém a implementação real de toda a lógica do CRUD (criarDocumento, lerDocumentos, atualizarDocumento, etc.).
-
-* main.c: Ficou limpo e agora serve apenas como o "menu" (switch case) que chama as funções do "motor".
-
-* Makefile: Automatiza o processo de compilação dos múltiplos arquivos-fonte.
+* **`beneficiario.h` (O Contrato):** Define a `struct Beneficiario` e os protótipos das funções, servindo como interface pública.
+* **`beneficiario.c` (O Motor):** Contém a implementação real da lógica de negócios (cadastrar, listar, atualizar, lógica de arquivos).
+* **`main.c` (O Controlador):** Serve apenas como ponto de entrada e gerenciamento do menu, delegando a lógica para o motor.
+* **`Makefile`:** Automatiza o processo de compilação dos múltiplos arquivos.
 
 ---
 
 ## Tecnologias Utilizadas
 
-* **Linguagem:** C
+* **Linguagem:** C (Padrão ANSI/C99)
 * **Compilador:** GCC (MinGW-w64)
-* **Build**: Make
+* **Build System:** Make
+* **Controle de Versão:** Git & GitHub
 
 ---
 
 ## Funcionalidades
-**[1] Criar**: ✅ Implementado! - Adiciona um novo documento ao `documento.txt`.
-
-**[2] Ler**: ✅ Implementado! - Lê e exibe todos os documentos salvos.
-
-**[3] Atualizar**: ✅ Implementado! - Permite editar um documento existente, buscando pelo CPF.
-
-**[4] Deletar**: (Planejado - Próximo passo)
-
-**[5] Sair**: ✅ Implementado! - Encerra o programa.
-
+* **[1] Cadastrar Beneficiário:** ✅ **Implementado!** - Adiciona um novo registro ao banco de dados `beneficiario.txt`.
+* **[2] Listar Beneficiários:** ✅ **Implementado!** - Lê o arquivo e exibe todos os beneficiários cadastrados.
+* **[3] Atualizar Dados:** ✅ **Implementado!** - Permite corrigir dados de um beneficiário buscando pelo CPF.
+* **[4] Deletar Registro:** (Planejado - Próximo passo)
+* **[5] Sair:** ✅ **Implementado!** - Encerra a execução com segurança.
 ---
 
 ## Demonstração
-<img width="1126" height="900" alt="Captura de tela 2025-11-12 150757" src="https://github.com/user-attachments/assets/bd4ac148-dd72-4a78-a53c-30f267fe7298" />
+<img width="1005" height="900" alt="Captura de tela 2025-11-26 095326" src="https://github.com/user-attachments/assets/26a058db-bab5-4751-b1f3-b9dd095cf42a" />
+
 
 ---
 
 ## Desafios & Soluções
-Durante o desenvolvimento, alguns desafios interessantes surgiram:
+Durante o desenvolvimento, enfrentei e resolvi desafios técnicos importantes:
 
-1.  **`int` vs `char[]` para CPF:** O CPF foi implementado como `char[20]` (texto) e não `int` (número).
-    * **Problema:** Um `int` de 32 bits não armazena os 11 dígitos de um CPF (o limite é ~2.14 bilhões).
-    * **Solução:** Tratar o CPF como um texto (`char[]`) resolve o problema de tamanho e permite salvar formatação (pontos e traço).
+1.  **Persistência de Dados (ODS):**
+    * **Desafio:** Adaptar a lógica para um contexto social real.
+    * **Solução:** Estruturação dos dados (`struct Beneficiario`) para armazenar CPF, Nome, Idade e Sexo, salvando tudo em modo *append* (`"a"`) no arquivo de texto.
 
-2.  **`scanf` vs `fgets` (Buffer do Teclado):**
-    * **Problema:** O `scanf("%d", ...)` usado para ler a opção do menu e a idade deixava um `\n` (Enter) "sobrando" no buffer do teclado.
-    * **Solução:** A função `getchar()` foi usada estrategicamente após cada `scanf` para "consumir" esse `\n` e limpar o buffer, permitindo que o `fgets()` seguinte funcionasse corretamente para ler os textos.
-3. **Atualização de Arquivos (`temp.txt`)**: Para implementar a função "Atualizar", foi preciso criar uma lógica de "arquivo temporário": ler o original, escrever as mudanças em um `temp.txt` e, no final, remover() o original e renomear() o temporário.
+2.  **Manipulação de Buffer (`scanf` vs `fgets`):**
+    * **Problema:** A leitura de números inteiros (`scanf`) deixava um caractere de nova linha (`\n`) no buffer, que "pulava" a leitura dos nomes subsequentes.
+    * **Solução:** Implementação estratégica da função `getchar()` para limpeza de buffer e uso de `strcspn` para sanitizar as strings lidas.
+
+3.  **Atualização de Arquivos Sequenciais:**
+    * **Problema:** Arquivos `.txt` não permitem edição direta de linhas no meio do arquivo.
+    * **Solução:** Implementação de um algoritmo de "Arquivo Temporário": o sistema lê o original, copia os dados válidos para `temp.txt`, substitui o registro editado e, ao final, realiza a troca atômica dos arquivos (`remove` / `rename`).
 ---
 
 ## Como Compilar e Rodar
